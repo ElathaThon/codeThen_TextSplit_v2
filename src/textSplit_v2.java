@@ -9,7 +9,7 @@ public class textSplit_v2 {
 
     public static void main(String[] args) {
 
-        String text = "The ability to write good code differentiates good developers from the rest patata";
+        String text = "The ability to write good code differentiates good developers from the rest";
         int lineas = 3;
 
 
@@ -47,27 +47,41 @@ public class textSplit_v2 {
 //        Hay 82 letras, cada linea tendra 27 y quedan 1 letras extras para repartir entre las lineas
 
         String stringParcial = "";
-        int lineaActual = 0;
+        int numeroLineaActual = 0; //per saber a quina estic, es pot borrar al final
 
         for (String palabra : palabras) {
 
-            stringParcial += palabra;
+            //comprovem si esta mes al final o al principi de la paraula...
+            int charsDisponiblesEnLinea = palabrasLinea - stringParcial.length(); //encara es poden possar 3 chars
 
-            if (stringParcial.length() > letrasLinea){
-                System.out.println("Linea nueva");
-                lineaActual++;
-            }else {
-                stringParcial += " ";
+//            if ( palabra.length() / 2 <= charsDisponiblesEnLinea + letrasRestantes ) { //Significa que la mes de la mitat de la paraula entra amb els chars dispoibles que tenim
+//                    if (letrasRestantes > 0) {
+//                        System.out.println("Se han gastado las letras extras");
+//                        letrasRestantes = 0; //Hem gastat les lletres extras que teniem... TDOD: Calcular les lletres restantes que s'han fet servir, potser no son totes.
+//                    }
+//
+//                    stringParcial += " " + palabra;
+//                    System.out.println("xxxx1: Linea "+numeroLineaActual+" (" + stringParcial + ") --> chars:" + stringParcial.length() );
+//
+//            } else
+
+            if ((stringParcial + palabra).length() > letrasLinea){
+
+                System.out.println("Linea "+numeroLineaActual+" (" + stringParcial + ") --> chars:" + stringParcial.length() );
+
+                frases.add(stringParcial);
+
+                stringParcial = palabra + " ";
+                numeroLineaActual++;
+            } else {
+                stringParcial += palabra + " ";
             }
-
 
         }
 
-        System.out.println(stringParcial);
-
-
-
-
+        //La ultima linea de totes
+        frases.add(stringParcial);
+        System.out.println("Linea "+numeroLineaActual+" (" + stringParcial + ") --> chars:" + stringParcial.length() );
 
 
 
