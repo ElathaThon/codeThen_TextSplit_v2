@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ public class textSplit_v2 {
         int lineas = 3;
 
 
-        List<String> textoDivididoByWords = textSplitWords(text,lineas);
+        List<String> textoDivididoByWords = splitTextWithLinesOfTheSameSizeOfCharacters(text,lineas);
 
         System.out.println("------------- Words -------------");
         for(int i=0;i<textoDivididoByWords.size();i++){
@@ -24,52 +25,55 @@ public class textSplit_v2 {
 
     }
 
-    public static List<String> textSplitWords(String text, int lineas) {
+    public static List<String> splitTextWithLinesOfTheSameSizeOfCharacters(String text, int lineas) {
 
         List<String> frases = new ArrayList<>();
 
+        //Get each general info
         String[] palabras = text.split(" ");
         int numeroPalabras = palabras.length;
         int palabrasExtra = numeroPalabras % lineas;
         int palabrasLinea = (numeroPalabras - palabrasExtra) / lineas;
-        int palabrasLineaActual = palabrasLinea;
 
         System.out.println("Hay " + numeroPalabras + " palabras, cada linea tendra " + palabrasLinea + " y quedan " + palabrasExtra + " palabras extras para repartir entre las lineas");
 
+        int totalLetras = text.length();
+        int letrasRestantes = totalLetras % lineas;
+        int letrasLinea = (totalLetras - letrasRestantes) / lineas;
 
-        int paraulaActualNumero = 0;
-        for (int i = 1; i < lineas+1; i++) {
+        System.out.println("Hay " + totalLetras + " letras, cada linea tendra " + letrasLinea + " y quedan " + letrasRestantes + " letras extras para repartir entre las lineas");
 
-            String stringParcial = "";
+//        Hay 13 palabras, cada linea tendra 4 y quedan 1 palabras extras para repartir entre las lineas
+//        Hay 82 letras, cada linea tendra 27 y quedan 1 letras extras para repartir entre las lineas
 
+        String stringParcial = "";
+        int lineaActual = 0;
 
-            if (palabrasExtra > 0) {
-                System.out.println("Extra!");
-                palabrasLineaActual = palabrasLinea + 1;
-                palabrasExtra--;
-            } else {
-                palabrasLineaActual = palabrasLinea;
+        for (String palabra : palabras) {
+
+            stringParcial += palabra;
+
+            if (stringParcial.length() > letrasLinea){
+                System.out.println("Linea nueva");
+                lineaActual++;
+            }else {
+                stringParcial += " ";
             }
 
-            for (int j = 0; j < palabrasLineaActual; j++) {
-                System.out.println(i +"# Aquesta linea te "+palabrasLineaActual+" paraules. La palabra numero " + j + " es: " + palabras[j]);
-                stringParcial += palabras[paraulaActualNumero] + " ";
-                paraulaActualNumero++;
-            }
-
-            stringParcial = stringParcial.substring(0, stringParcial.length() - 1);
-
-            System.out.println(i+ "# A la linea " + i + " -->'"+stringParcial + "' en total son " + stringParcial.split(" ").length + " palabras");
-
-            frases.add(stringParcial);
 
         }
+
+        System.out.println(stringParcial);
+
+
+
+
+
+
 
         return frases;
 
     }
-
-
 
 
 
