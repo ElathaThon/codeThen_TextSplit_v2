@@ -21,7 +21,22 @@ public class textSplit_v2 {
         }
 
 
+        System.out.println("\nHaciendo los tests para ver si funciona corractamente.....\n++++++++");
 
+        //Tests con texto normalillo
+        check(splitTextWithLinesOfTheSameSizeOfCharacters("The ability to write good code differentiates good developers from the rest", 3), Arrays.asList("The ability to write good", "code " +
+                "differentiates good", "developers from the rest"));
+
+        check(splitTextWithLinesOfTheSameSizeOfCharacters("aa bb cc dd", 2), Arrays.asList("aa bb", "cc dd"));
+
+        check(splitTextWithLinesOfTheSameSizeOfCharacters("aa bb cc dd", 4), Arrays.asList("aa", "bb", "cc", "dd"));
+
+        check(splitTextWithLinesOfTheSameSizeOfCharacters("aaa bb ccc dddddddddddddddddd", 2), Arrays.asList("aaa bb ccc", "dddddddddddddddddd"));
+
+        //Ahora los raros
+        check(splitTextWithLinesOfTheSameSizeOfCharacters("aaa bb ccc dddddddddddddddddd", 3), Arrays.asList("aaa bb", "ccc", "dddddddddddddddddd"));
+
+        check(splitTextWithLinesOfTheSameSizeOfCharacters("aa bb", 4), Arrays.asList("aa", "bb", "", ""));
 
     }
 
@@ -35,16 +50,44 @@ public class textSplit_v2 {
         int palabrasExtra = numeroPalabras % lineas;
         int palabrasLinea = (numeroPalabras - palabrasExtra) / lineas;
 
-        System.out.println("Hay " + numeroPalabras + " palabras, cada linea tendra " + palabrasLinea + " y quedan " + palabrasExtra + " palabras extras para repartir entre las lineas");
+        int palabraActual = 0;
+
+//        System.out.println("Hay " + numeroPalabras + " palabras, cada linea tendra " + palabrasLinea + " y quedan " + palabrasExtra + " palabras extras para repartir entre las lineas");
 
         int totalLetras = text.length();
         int letrasRestantes = totalLetras % lineas;
         int letrasLinea = (totalLetras - letrasRestantes) / lineas;
 
-        System.out.println("Hay " + totalLetras + " letras, cada linea tendra " + letrasLinea + " y quedan " + letrasRestantes + " letras extras para repartir entre las lineas");
+//        System.out.println("Hay " + totalLetras + " letras, cada linea tendra " + letrasLinea + " y quedan " + letrasRestantes + " letras extras para repartir entre las lineas");
 
-//        Hay 13 palabras, cada linea tendra 4 y quedan 1 palabras extras para repartir entre las lineas
-//        Hay 82 letras, cada linea tendra 27 y quedan 1 letras extras para repartir entre las lineas
+
+
+        //FIX: Si son mes lineas que paraules
+        if (lineas > numeroPalabras) {
+
+            System.out.println("Se han pedido mas lineas que palabras!");
+
+            for (int i = 0; i < lineas; i++) {
+
+//                System.out.println("Num palabras:"+numeroPalabras+"/ i:"+i+" /lineas:"+lineas);
+                if (numeroPalabras > i){
+//                    System.out.println("Added to frases --> Palabra num."+i+" / " + palabras[i]);
+                    frases.add(palabras[i]);
+                } else {
+//                    System.out.println("Added nothing to frases");
+                    frases.add("");
+                }
+
+            }
+
+            return frases;
+
+
+        }
+
+
+
+
 
         String stringParcial = "";
         int numeroLineaActual = 0; //per saber a quina estic, es pot borrar al final
@@ -65,11 +108,12 @@ public class textSplit_v2 {
 //
 //            } else
 
+
             if ((stringParcial + palabra).length() > letrasLinea){
 
-                System.out.println("Linea "+numeroLineaActual+" (" + stringParcial + ") --> chars:" + stringParcial.length() );
+                System.out.println("Linea "+numeroLineaActual+" (" + stringParcial.substring(0,stringParcial.length()-1) + ") --> chars:" + stringParcial.substring(0,stringParcial.length()-1).length() );
 
-                frases.add(stringParcial);
+                frases.add(stringParcial.substring(0,stringParcial.length()-1));
 
                 stringParcial = palabra + " ";
                 numeroLineaActual++;
@@ -77,11 +121,15 @@ public class textSplit_v2 {
                 stringParcial += palabra + " ";
             }
 
+
+
+            palabraActual++;
+
         }
 
         //La ultima linea de totes
-        frases.add(stringParcial);
-        System.out.println("Linea "+numeroLineaActual+" (" + stringParcial + ") --> chars:" + stringParcial.length() );
+        frases.add(stringParcial.substring(0,stringParcial.length()-1));
+        System.out.println("Linea "+numeroLineaActual+" (" + stringParcial.substring(0,stringParcial.length()-1) + ") --> chars:" + stringParcial.length() );
 
 
 
@@ -93,8 +141,11 @@ public class textSplit_v2 {
 
     static void check(Object actual, Object expected) {
 
-        if (!result.equals(expected)) {
+
+        if (!actual.equals(expected)) {
             throw new RuntimeException("Actual: " + actual + " is not equals to expected: " + expected);
+        }else {
+            System.out.println("Ok!\n++++++++");
         }
     }
 
