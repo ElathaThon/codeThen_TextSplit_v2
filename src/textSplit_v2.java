@@ -91,6 +91,12 @@ public class textSplit_v2 {
 
 
 
+    static void check(Object actual, Object expected) {
+
+        if (!result.equals(expected)) {
+            throw new RuntimeException("Actual: " + actual + " is not equals to expected: " + expected);
+        }
+    }
 
 
 
